@@ -1,0 +1,7 @@
+build/
+bin/
+.venv/
+plots/
+bench_results.csv
+alignment_result.txt
+.DS_Store
