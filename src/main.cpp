@@ -3,7 +3,6 @@
 // Runs the selected implementation(s), checks that all of them agree with the sequential reference,
 // prints a report to the console and writes the full report to a file.
 #include <algorithm>
-#include <chrono>
 #include <climits>
 #include <fstream>
 #include <iomanip>
@@ -18,11 +17,7 @@ using namespace sw;
 
 namespace {
 
-using Clock = std::chrono::steady_clock;
-
-double ms_since(Clock::time_point t0) {
-    return std::chrono::duration<double, std::milli>(Clock::now() - t0).count();
-}
+double ms_since(double t0) { return (wtime() - t0) * 1000.0; }
 
 struct RunResult {
     std::string impl;
@@ -172,7 +167,7 @@ int main(int argc, char** argv) try {
         run.impl = name;
         run.threads = (name == "sequential") ? 1 : threads;
 
-        auto t0 = Clock::now();
+        double t0 = wtime();
         if (name == "sequential")
             run.best = fill_sequential(fa.sequence, fb.sequence, rep.sc, H);
         else if (name == "wavefront")
@@ -183,7 +178,7 @@ int main(int argc, char** argv) try {
 
         // The matrix still holds this implementation's result, so trace back now before the next
         // implementation overwrites it.
-        t0 = Clock::now();
+        t0 = wtime();
         run.aln = traceback(fa.sequence, fb.sequence, rep.sc, H, run.best);
         run.traceback_ms = ms_since(t0);
 

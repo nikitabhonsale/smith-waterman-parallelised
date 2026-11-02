@@ -5,7 +5,6 @@
 // Only the matrix fill is timed (the traceback is sequential and takes negligible time).
 // Every run's best cell is compared with the sequential result, and results go to a CSV file.
 #include <algorithm>
-#include <chrono>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -19,11 +18,7 @@ using namespace sw;
 
 namespace {
 
-using Clock = std::chrono::steady_clock;
-
-double ms_since(Clock::time_point t0) {
-    return std::chrono::duration<double, std::milli>(Clock::now() - t0).count();
-}
+double ms_since(double t0) { return (wtime() - t0) * 1000.0; }
 
 struct Timing {
     double median = 0, min = 0, max = 0;
@@ -38,7 +33,7 @@ Timing measure(int reps, F&& run_once) {
 
     std::vector<double> ms;
     for (int r = 0; r < reps; ++r) {
-        const auto t0 = Clock::now();
+        const double t0 = wtime();
         const Best b = run_once();
         ms.push_back(ms_since(t0));
         if (!same_cell(b, t.best)) t.stable = false;
