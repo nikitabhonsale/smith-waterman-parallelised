@@ -61,7 +61,7 @@ void usage(std::ostream& os) {
           "sequences, for several N and several thread counts, and writes the results to a CSV file.\n"
           "\n"
           "Options:\n"
-          "  --sizes LIST       comma-separated problem sizes N      (default: 1000,2000,4000,8000,16000)\n"
+          "  --sizes LIST       comma-separated problem sizes N      (default: 1000,2000,4000,8000)\n"
           "  --threads LIST     comma-separated thread counts        (default: 1,2,4,... up to all cores)\n"
           "  --reps N           timed repetitions per configuration  (default: 5)\n"
           "  --tile N           tile size for the tiled version      (default: 64)\n"
@@ -87,7 +87,7 @@ int main(int argc, char** argv) try {
     const int tile = args.get_int("--tile", 64);
     const long long max_mb = args.get_int("--max-mem-mb", 2048);
     const std::string csv_path = args.get("--csv", "bench_results.csv");
-    std::vector<int> sizes = args.get_int_list("--sizes", {1000, 2000, 4000, 8000, 16000});
+    std::vector<int> sizes = args.get_int_list("--sizes", {1000, 2000, 4000, 8000});
     std::vector<int> threads = args.get_int_list("--threads", default_threads());
     if (reps < 1 || tile < 1) throw std::runtime_error("--reps and --tile must be at least 1");
     for (int t : threads)

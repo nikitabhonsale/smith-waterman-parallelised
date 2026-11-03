@@ -46,7 +46,7 @@ The console shows the first 10 blocks of the alignment; the output file (`alignm
 Benchmark (median of `--reps` runs, one CSV row per configuration):
 
 ```
-./bin/sw_bench examples/large_a.fasta examples/large_b.fasta --sizes 2000,4000,8000,16000 --threads 1,2,4,8 --reps 5
+./bin/sw_bench examples/large_a.fasta examples/large_b.fasta --sizes 2000,4000,8000 --threads 1,2,4,8 --reps 5
 python3 tools/plot_results.py bench_results.csv --outdir plots     # needs matplotlib
 ```
 
